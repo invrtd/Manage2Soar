@@ -87,6 +87,7 @@ def test_non_treasurer_cannot_access_treasurer_ledger_endpoints(
     assert not LedgerEntry.objects.filter(
         ledger__member=member, member_description="Unauthorized charge"
     ).exists()
+    assert LedgerEntry.objects.filter(ledger__member=member).count() == 1
 
 
 def test_ledger_list_redirects_when_billing_is_disabled(client, treasurer):
