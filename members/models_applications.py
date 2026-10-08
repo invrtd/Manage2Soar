@@ -433,9 +433,7 @@ class MembershipApplication(models.Model):
         if self.pilot_certificate_number:
             member.pilot_certificate_number = self.pilot_certificate_number
         member.glider_rating = self.glider_rating
-        # Store None rather than "" so blank SSA numbers don't collide on the
-        # unique constraint.
-        member.SSA_member_number = self.ssa_member_number or None
+        member.SSA_member_number = self.ssa_member_number
 
         # Set initial membership status (configurable per club)
         config = SiteConfiguration.objects.first()
