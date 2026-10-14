@@ -11,7 +11,23 @@ replaces with the preview root (``/preview/``). Links to real application pages
 live site.
 """
 
-from django.templatetags.static import static
+import re
+
+# Static URLs must NOT be resolved at import time: production uses a manifest
+# staticfiles storage (ManifestStaticFilesStorage), whose manifest is only
+# populated by `collectstatic` — which runs *after* `migrate` during deploy
+# (and `migrate` runs `manage.py check`, importing this module). Resolving too
+# early raises "Missing staticfiles manifest entry". So embed tokens here and
+# expand them to real URLs at request time via ``resolve_static``.
+_STATIC_TOKEN = "@@STATIC:{}@@"
+
+
+def resolve_static(text):
+    """Expand ``@@STATIC:<path>@@`` tokens to (hashed) static URLs."""
+    from django.templatetags.static import static
+
+    return re.sub(r"@@STATIC:(.+?)@@", lambda m: static(m.group(1)), text)
+
 
 _IMG_FILES = {
     "g_rainbow": "img-1538.jpg",
@@ -46,12 +62,14 @@ _IMG_FILES = {
     "c_preparing": "preparing.jpg",
 }
 
-IMG = {k: static(f"preview/img/{name}") for k, name in _IMG_FILES.items()}
+IMG = {k: _STATIC_TOKEN.format(f"preview/img/{name}") for k, name in _IMG_FILES.items()}
 
 PDF = {
-    "bylaws": static("preview/pdf/avsc-bylaws-2015.pdf"),
-    "application": static("preview/pdf/avsc-membership-application-2012.pdf"),
-    "dues": static("preview/pdf/avsc-dues-rates.pdf"),
+    "bylaws": _STATIC_TOKEN.format("preview/pdf/avsc-bylaws-2015.pdf"),
+    "application": _STATIC_TOKEN.format(
+        "preview/pdf/avsc-membership-application-2012.pdf"
+    ),
+    "dues": _STATIC_TOKEN.format("preview/pdf/avsc-dues-rates.pdf"),
 }
 
 

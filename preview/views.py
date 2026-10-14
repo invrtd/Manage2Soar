@@ -9,12 +9,13 @@ templates. It is not linked anywhere and every page is marked ``noindex``; the
 from django.shortcuts import render
 from django.urls import reverse
 
-from .content import PAGE_MAP, PAGES
+from .content import PAGE_MAP, PAGES, resolve_static
 
 
 def _base_context(request, slug, title, content):
     preview_base = reverse("public_preview_home")
     content = content.replace("%%BASE%%", preview_base)
+    content = resolve_static(content)
     feedback_url = reverse("cms:feedback")
     return {
         "page_title": title,
