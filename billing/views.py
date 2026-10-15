@@ -134,11 +134,13 @@ def reopen_billing_period(request, period_id):
 @billing_app_required
 @treasurer_required
 def billing_period_list(request):
+    from siteconfig.timezone_utils import get_club_today
+
     periods = BillingPeriod.objects.prefetch_related("events__actor")
     return render(
         request,
         "billing/period_list.html",
-        {"periods": periods, "today": date.today()},
+        {"periods": periods, "today": get_club_today()},
     )
 
 

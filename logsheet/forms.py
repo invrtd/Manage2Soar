@@ -790,13 +790,13 @@ class CreateLogsheetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # Accept a special kwarg for duty_assignment_date
         duty_assignment_date = kwargs.pop("duty_assignment_date", None)
-        from datetime import date
+        from siteconfig.timezone_utils import get_club_today
 
         super().__init__(*args, **kwargs)
 
-        # Set initial log_date to today if not already set
+        # Set initial log_date to the club-local today if not already set
         if not self.fields["log_date"].initial:
-            self.fields["log_date"].initial = date.today()
+            self.fields["log_date"].initial = get_club_today()
         self.fields["log_date"].widget.attrs.update({"class": "form-control"})
         self.fields["airfield"].queryset = Airfield.objects.filter(
             is_active=True

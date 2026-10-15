@@ -748,3 +748,31 @@ def test_flight_form_accepts_available_ticket_dropdown(active_member, glider, lo
 
     assert form.is_valid(), f"Form errors: {form.errors}"
     assert form.cleaned_data["ticket_number"] == "T-220"
+
+
+@pytest.mark.django_db
+def test_create_logsheet_form_defaults_log_date_to_club_local_date(monkeypatch):
+    """Flight charges post with the logsheet's date, and billing rejects
+    dates after the club-local today. At 03:00 UTC on Jan 1 it is still
+    Dec 31 in Los Angeles, so the default must be the club's date."""
+    from datetime import datetime
+    from datetime import timezone as dt_timezone
+
+    from django.utils import timezone
+
+    from siteconfig.models import SiteConfiguration
+
+    config = SiteConfiguration.objects.first() or SiteConfiguration.objects.create(
+        club_name="Logsheet Test Club",
+        domain_name="logsheet-test.example.com",
+        club_abbreviation="LTC",
+    )
+    config.club_timezone = "America/Los_Angeles"
+    config.save(update_fields=["club_timezone"])
+    monkeypatch.setattr(
+        timezone, "now", lambda: datetime(2020, 1, 1, 3, 0, tzinfo=dt_timezone.utc)
+    )
+
+    form = CreateLogsheetForm()
+
+    assert form.fields["log_date"].initial == date(2019, 12, 31)

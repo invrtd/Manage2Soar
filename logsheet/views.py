@@ -36,6 +36,7 @@ from siteconfig.models import (
     MembershipGliderRentalRule,
     SiteConfiguration,
 )
+from siteconfig.timezone_utils import get_club_today
 from siteconfig.utils import get_role_title
 from utils.csv import sanitize_csv_cell as _sanitize_csv_cell
 from utils.email import send_mail
@@ -1380,7 +1381,6 @@ def flight_split_request_detail(request, token):
 
         from billing.models import FlightChargeSnapshot
         from billing.services import correct_flight_charges
-        from siteconfig.timezone_utils import get_club_today
 
         current_version = (
             FlightChargeSnapshot.objects.filter(flight=split_request.flight)
@@ -1730,7 +1730,7 @@ def create_logsheet(request):
             return redirect("logsheet:manage", pk=logsheet.pk)
     else:
         # Auto-populate duty crew for today's date
-        form = CreateLogsheetForm(duty_assignment_date=date.today())
+        form = CreateLogsheetForm(duty_assignment_date=get_club_today())
         # Pre-seed one empty towplane row so the formset is usable.
         # If a duty roster exists for today and includes a tow pilot, we
         # surface a single empty row; the operator can add more as needed.
@@ -1742,7 +1742,7 @@ def create_logsheet(request):
     # Build a {towplane_id: last_end_tach} map so the client can pre-fill
     # the start_tach field as soon as a towplane is picked. Only includes
     # active, non-virtual towplanes.
-    selected_log_date = date.today()
+    selected_log_date = get_club_today()
     log_date_value = form["log_date"].value()
     if log_date_value:
         try:
@@ -1750,7 +1750,7 @@ def create_logsheet(request):
                 str(log_date_value), "%Y-%m-%d"
             ).date()
         except (TypeError, ValueError):
-            selected_log_date = date.today()
+            selected_log_date = get_club_today()
 
     towplanes_for_prefill = Towplane.objects.filter(is_active=True)
     for virtual_n_number in Towplane.VIRTUAL_N_NUMBERS:
@@ -2263,7 +2263,7 @@ def list_logsheets(request):
     )
     selected_log_date = _parse_log_date_value(
         form["log_date"].value(),
-        fallback_date=date.today(),
+        fallback_date=get_club_today(),
     )
     towplanes_for_prefill = Towplane.objects.filter(is_active=True)
     for virtual_n_number in Towplane.VIRTUAL_N_NUMBERS:

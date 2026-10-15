@@ -1,9 +1,9 @@
-from datetime import date
 from decimal import Decimal
 
 from django import forms
 
 from billing.services import OPENING_BALANCE_OVERRIDE_MAX_DESCRIPTION
+from siteconfig.timezone_utils import get_club_today
 
 
 class ManualEntryForm(forms.Form):
@@ -23,7 +23,7 @@ class ManualEntryForm(forms.Form):
         min_value=Decimal("0.01"), max_digits=12, decimal_places=2
     )
     effective_date = forms.DateField(
-        initial=date.today, widget=forms.DateInput(attrs={"type": "date"})
+        initial=get_club_today, widget=forms.DateInput(attrs={"type": "date"})
     )
     description = forms.CharField(max_length=255)
     reason = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
@@ -53,7 +53,7 @@ class OpeningBalanceOverrideForm(forms.Form):
     )
     effect = forms.ChoiceField(choices=EFFECT_CHOICES)
     effective_date = forms.DateField(
-        initial=date.today, widget=forms.DateInput(attrs={"type": "date"})
+        initial=get_club_today, widget=forms.DateInput(attrs={"type": "date"})
     )
     # Must stay short enough that the "Opening balance override: " prefix
     # added at posting time still fits LedgerEntry.member_description;
