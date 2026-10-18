@@ -1,0 +1,14 @@
+Subject: Preview the redesigned AVSC website
+
+Hi AVSC members,
+
+You can preview the redesigned public site at:
+https://dev.antelopevalleysoaringclub.org/preview/
+
+We'd welcome your feedback — click "Leave feedback" on any preview page (you'll need to sign in).
+
+Your login username is first.last (all lowercase), matching the name the club has on file. If you've never signed in or need to set your password, click "Login" at the top of any preview page (or go to https://dev.antelopevalleysoaringclub.org/accounts/login/), then select "Reset your password" and enter the email address the club has on file. You'll receive a password reset link by email.
+
+Thanks for taking a look!
+
+Colin Driggs
