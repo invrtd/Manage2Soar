@@ -1,0 +1,299 @@
+/* Public club-website styling.
+   Modern presentation layer for the public (anonymous) CMS pages and homepage.
+   Scoped with .avsc-* class prefixes so member/app views are unaffected. */
+
+:root {
+  --avsc-sky: #0b5fa5;
+  --avsc-sky-dark: #083d6b;
+  --avsc-accent: #e8a33d;
+  --avsc-ink: #1c2733;
+  --avsc-muted: #5b6b7b;
+}
+
+/* ---------------------------------------------------------------- Hero --- */
+
+.avsc-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(360px, 62vh, 620px);
+  color: #fff;
+  background-color: var(--avsc-sky-dark);
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+}
+
+.avsc-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg,
+      rgba(6, 33, 56, 0.82) 0%,
+      rgba(6, 33, 56, 0.55) 45%,
+      rgba(6, 33, 56, 0.25) 100%);
+}
+
+.avsc-hero__inner {
+  position: relative;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.avsc-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--avsc-accent);
+  margin-bottom: 0.75rem;
+}
+
+.avsc-hero__title {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  max-width: 18ch;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.avsc-hero__lead {
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Button tweaks inside hero */
+.avsc-hero .btn {
+  border-radius: 2rem;
+  padding: 0.7rem 1.6rem;
+  font-weight: 600;
+}
+
+.avsc-hero .btn-primary {
+  background-color: var(--avsc-accent);
+  border-color: var(--avsc-accent);
+  color: #1c2733;
+}
+
+.avsc-hero .btn-primary:hover {
+  background-color: #f2b657;
+  border-color: #f2b657;
+  color: #1c2733;
+}
+
+/* --------------------------------------------------------------- Stats --- */
+
+.avsc-stats {
+  background: #fff;
+  border-bottom: 1px solid #e7edf3;
+}
+
+.avsc-stat {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+}
+
+.avsc-stat__num {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--avsc-sky);
+  line-height: 1;
+}
+
+.avsc-stat__label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--avsc-muted);
+  margin-top: 0.4rem;
+}
+
+/* ------------------------------------------------------------ Features --- */
+
+.avsc-section {
+  padding: 3.5rem 0;
+}
+
+.avsc-section--tint {
+  background: #f5f8fb;
+}
+
+.avsc-section__title {
+  font-weight: 800;
+  color: var(--avsc-ink);
+}
+
+.avsc-lead {
+  font-size: 1.15rem;
+  color: var(--avsc-muted);
+  max-width: 60ch;
+}
+
+.avsc-feature {
+  height: 100%;
+  border: 1px solid #e7edf3;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1.75rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.avsc-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(11, 95, 165, 0.12);
+}
+
+.avsc-feature__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--avsc-sky), var(--avsc-sky-dark));
+  margin-bottom: 1rem;
+}
+
+.avsc-feature h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--avsc-ink);
+}
+
+.avsc-feature p {
+  color: var(--avsc-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* -------------------------------------------------------------- CTA ------- */
+
+.avsc-cta {
+  border-radius: 1rem;
+  padding: 2.5rem;
+  color: #fff;
+  background: linear-gradient(120deg, var(--avsc-sky-dark), var(--avsc-sky));
+}
+
+.avsc-cta h2 {
+  font-weight: 800;
+}
+
+.avsc-cta .btn {
+  border-radius: 2rem;
+  font-weight: 600;
+  padding: 0.7rem 1.6rem;
+}
+
+/* ---------------------------------------------------------- Gallery ------- */
+
+.avsc-gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.avsc-gallery-strip a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  aspect-ratio: 4 / 3;
+}
+
+.avsc-gallery-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.avsc-gallery-strip a:hover img {
+  transform: scale(1.07);
+}
+
+/* ------------------------------------------------------------- News ------- */
+
+.avsc-news__date {
+  font-weight: 700;
+  color: var(--avsc-sky);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+}
+
+.avsc-news__item {
+  border-left: 3px solid #e7edf3;
+  padding-left: 1.1rem;
+  margin-bottom: 1.6rem;
+}
+
+.avsc-news__item:hover {
+  border-left-color: var(--avsc-accent);
+}
+
+/* ---------------------------------------------------- Generic page look --- */
+
+.cms-content .avsc-page-hero {
+  border-radius: 1rem;
+  padding: 2.25rem 2rem;
+  color: #fff;
+  background: linear-gradient(120deg, var(--avsc-sky-dark), var(--avsc-sky));
+  margin-bottom: 2rem;
+}
+
+.cms-content .avsc-page-hero h2 {
+  margin-top: 0;
+  font-weight: 800;
+  color: #fff;
+}
+
+.cms-content .avsc-page-hero p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.1rem;
+}
+
+.cms-content .avsc-card {
+  border: 1px solid #e7edf3;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  height: 100%;
+  background: #fff;
+}
+
+.cms-content .avsc-spec {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cms-content .avsc-spec li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed #e7edf3;
+  color: var(--avsc-muted);
+}
+
+.cms-content .avsc-spec li span:last-child {
+  color: var(--avsc-ink);
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (max-width: 575.98px) {
+  .avsc-section {
+    padding: 2.25rem 0;
+  }
+
+  .avsc-cta {
+    padding: 1.75rem;
+  }
+}

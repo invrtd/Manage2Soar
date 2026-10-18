@@ -191,6 +191,11 @@ def apple_touch_icon_view(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Unlisted draft preview of the redesigned public site. Lives only on the
+    # `public-preview` branch; `main` does not contain it. Nothing links to it
+    # and pages are marked noindex, but the URL itself is unguarded, so treat
+    # the branch (deploy) as the on/off switch.
+    path("preview/", include("preview.urls")),
     path("members/", include("members.urls")),
     path("billing/", include(("billing.urls", "billing"), namespace="billing")),
     path("logsheet/", include(("logsheet.urls", "logsheet"), namespace="logsheet")),
