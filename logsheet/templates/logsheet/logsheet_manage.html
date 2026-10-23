@@ -2,6 +2,7 @@
 {% load static %}
 {% load member_extras %}
 {% load logsheet_tags %}
+{% load siteconfig_tags %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'css/logsheet.css' %}">
@@ -216,7 +217,8 @@
 {% endif %}
 
 <!-- Flights Section -->
-<div class="flights-section" id="logsheetContainer" data-logsheet-date="{{ logsheet.log_date|date:'Y-m-d' }}" data-commercial-rides-enabled="{% if commercial_rides_enabled %}true{% else %}false{% endif %}">
+{% get_siteconfig as igc_siteconfig %}
+<div class="flights-section" id="logsheetContainer" data-logsheet-date="{{ logsheet.log_date|date:'Y-m-d' }}" data-club-timezone="{{ igc_siteconfig.club_timezone|default:'UTC' }}" data-commercial-rides-enabled="{% if commercial_rides_enabled %}true{% else %}false{% endif %}">
   <div class="flights-header">
     <div class="d-flex align-items-center gap-3">
       <i class="bi bi-airplane text-primary" style="font-size: 1.5rem;"></i>
@@ -1377,6 +1379,7 @@ document.addEventListener("click", async function(e) {
 <!-- Load offline support scripts (non-ES-module bundles to avoid CORS issues with GCS) -->
 <script src="{% static 'js/offline/indexeddb-bundle.js' %}"></script>
 <script src="{% static 'js/offline/offline-form-bundle.js' %}"></script>
+<script src="{% static 'js/igc-flight-times.js' %}"></script>
 
 <script>
   // Offline data caching - runs after the bundle scripts are loaded

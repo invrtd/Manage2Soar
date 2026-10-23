@@ -348,6 +348,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mt-3 d-flex flex-wrap align-items-center gap-2">
+                            <label for="igc-flight-file" class="small text-muted mb-0">IGC times (optional)</label>
+                            <input type="file" id="igc-flight-file" class="form-control form-control-sm" style="max-width: 15rem" accept=".igc">
+                            <span id="igc-flight-status" class="small" role="status" aria-live="polite"></span>
+                        </div>
                     </div>
                 </form>
             </div>
