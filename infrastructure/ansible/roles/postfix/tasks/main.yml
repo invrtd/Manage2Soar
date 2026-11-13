@@ -30,9 +30,16 @@
     label: "{{ item.prefix | default('missing-prefix') }}"
   tags: [always]
 
+- name: Reset tenant domains for uniqueness validation
+  ansible.builtin.set_fact:
+    postfix_resolved_tenant_domains: []
+  tags: [always]
+
 - name: Resolve tenant domains for uniqueness validation
   ansible.builtin.set_fact:
-    postfix_resolved_tenant_domains: "{{ ((postfix_resolved_tenant_domains | default([])) + (_tenant_domains | map('lower') | unique | list)) | unique | list }}"
+    # Preserve duplicates here so the following assertion can detect a domain
+    # assigned to more than one tenant.
+    postfix_resolved_tenant_domains: "{{ postfix_resolved_tenant_domains + (_tenant_domains | map('lower') | list) }}"
   vars:
     _explicit_domains: "{{ [item.domains] if (item.domains is defined and item.domains is string) else (item.domains | default([])) }}"
     _tenant_domains: >-
